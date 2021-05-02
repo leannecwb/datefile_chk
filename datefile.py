@@ -182,6 +182,15 @@ def read_min_data_T(item,lines):
 		print('not right!')
 	return datamin
 
+def locate(loc):
+	if loc == 0 :
+		loc_inv = [0,1]
+	elif loc == 23 :
+		loc_inv = [22,23]
+	else :
+		loc_inv = [loc-1,loc+1]
+	return loc_inv
+
 def main():
 	inputfile = input('請輸入日期檔:')
 	lines = read_file(inputfile)
@@ -206,6 +215,8 @@ def main():
 	loc = P2.index(max(P2))
 	p2_findmin = min(P2)
 	loc2 = P2.index(min(P2))
+	loc_inv = locate(loc)
+	loc_inv1 = locate(loc2)
 #	print('TIMES:',times[loc2])
 	P2Max = read_max_data_T('P2Max',lines)
 	P2Min = read_min_data_T('P2Min',lines)
@@ -219,7 +230,7 @@ def main():
 		print('--------------------------------------------------------------------------------------')
 
 
-	if  float(P2Max[1]) >= float(times[loc-1]) and  float(P2Max[1]) <= float(times[loc+1]):
+	if  float(P2Max[1]) >= float(times[loc_inv[0]]) and  float(P2Max[1]) <= float(times[loc_inv[1]]):
 		print('     o  P2日極大值時間(',P2Max[1],') 接近P2小時最大值時間(',times[loc],')，檢查通過...')
 	else:
 		print('------------------------------------------------------------------------------------')	
@@ -234,7 +245,7 @@ def main():
 		print('--------------------------------------------------------------------------------------')
 
 
-	if  float(P2Min[1]) >= float(times[loc2-1]) and  float(P2Min[1]) <= float(times[loc2+1]):
+	if  float(P2Min[1]) >= float(times[loc_inv1[0]]) and  float(P2Min[1]) <= float(times[loc_inv1[1]]):
 		print('     o  P2日極小值時間(',P2Min[1],') 接近P2小時最小值時間(',times[loc2],')，檢查通過...')
 	else:
 		print('------------------------------------------------------------------------------------')	
@@ -247,6 +258,8 @@ def main():
 	loc = P1.index(max(P1))
 	p1_findmin = min(P1)
 	loc1 = P1.index(min(P1))
+	loc_inv = locate(loc)
+	loc_inv1 = locate(loc1)
 #	print('TIMES:',times[loc2])
 	P1Max = read_max_data_T('P1Max',lines)
 	P1Min = read_min_data_T('P1Min',lines)
@@ -260,7 +273,7 @@ def main():
 		print('--------------------------------------------------------------------------------------')
 
 
-	if  float(P1Max[1]) >= float(times[loc-1]) and  float(P1Max[1]) <= float(times[loc+1]):
+	if  float(P1Max[1]) >= float(times[loc_inv[0]]) and  float(P1Max[1]) <= float(times[loc_inv[1]]):
 		print('     o  P1日極大值時間(',P1Max[1],') 接近P1小時最大值時間(',times[loc],')，檢查通過...')
 	else:
 		print('------------------------------------------------------------------------------------')	
@@ -275,7 +288,7 @@ def main():
 		print('--------------------------------------------------------------------------------------')
 
 
-	if  float(P1Min[1]) >= float(times[loc1-1]) and  float(P1Min[1]) <= float(times[loc1+1]):
+	if  float(P1Min[1]) >= float(times[loc_inv1[0]]) and  float(P1Min[1]) <= float(times[loc_inv1[1]]):
 		print('     o  P1日極小值時間(',P1Min[1],') 接近P1小時最小值時間(',times[loc1],')，檢查通過...')
 	else:
 		print('------------------------------------------------------------------------------------')	
@@ -299,6 +312,8 @@ def main():
 	loc = T.index(max(T))
 	T_findmin = min(T)
 	loc1 = T.index(min(T))
+	loc_inv = locate(loc)
+	loc_inv1 = locate(loc1)
 #	print('TIMES:',times[loc2])
 	TMax = read_max_data_T('TMax',lines)
 	TMin = read_min_data_T('TMin',lines)
@@ -312,7 +327,7 @@ def main():
 		print('--------------------------------------------------------------------------------------')
 
 
-	if  float(TMax[1]) >= float(times[loc-1]) and  float(TMax[1]) <= float(times[loc+1]):
+	if  float(TMax[1]) >= float(times[loc_inv[0]]) and  float(TMax[1]) <= float(times[loc_inv[1]]):
 		print('     o  T之日極大值時間(',TMax[1],') 接近T之小時最大值時間(',times[loc],')，檢查通過...')
 	else:
 		print('------------------------------------------------------------------------------------')	
@@ -327,18 +342,21 @@ def main():
 		print('--------------------------------------------------------------------------------------')
 
 
-	if  float(TMin[1]) >= float(times[loc1-1]) and  float(TMin[1]) <= float(times[loc1+1]):
+	if  float(TMin[1]) >= float(times[loc_inv1[0]]) and  float(TMin[1]) <= float(times[loc_inv1[1]]):
 		print('     o  T之日極小值時間(',TMin[1],') 接近T之小時最小值時間(',times[loc1],')，檢查通過...')
 	else:
 		print('------------------------------------------------------------------------------------')	
 		print('     !!! T之日極小值時間(',TMin[1],') 離T小時最小值時間(',times[loc1],')稍遠，請檢查!!!')
 		print('------------------------------------------------------------------------------------')
+
 	print('+++++++++++++++   5. 檢查Td的極值與時間是否合理   ++++++++++++++')
 	Td = read_data_h('Td',lines)
 	Td_findmax = max(Td)
 	loc = Td.index(max(Td))
+	loc_inv = locate(loc)
 	Td_findmin = min(Td)
 	loc1 = Td.index(min(Td))
+	loc_inv1 = locate(loc1)
 #	print('TIMES:',times[loc2])
 	TdMax = read_max_data_T('TdMax',lines)
 	TdMin = read_min_data_T('TdMin',lines)
@@ -352,13 +370,13 @@ def main():
 		print('--------------------------------------------------------------------------------------')
 
 
-	if  float(TdMax[1]) >= float(times[loc-1]) and  float(TdMax[1]) <= float(times[loc+1]):
+	if  float(TdMax[1]) >= float(times[loc_inv[0]]) and  float(TdMax[1]) <= float(times[loc_inv[1]]):
 		print('     o  Td之日極大值時間(',TdMax[1],') 接近Td之小時最大值時間(',times[loc],')，檢查通過...')
 	else:
 		print('------------------------------------------------------------------------------------')	
 		print('     !!! Td之日極大值時間(',TdMax[1],') 離Td之小時最大值時間(',times[loc],')稍遠，請檢查!!!')
 		print('------------------------------------------------------------------------------------')
-#   T 極小值檢查
+#   Td 極小值檢查
 	if float(TdMin[0]) <= float(Td_findmin) :
 		print('     o  Td之日極小值(',TdMin[0],') <= Td之小時最小值(',Td_findmin,')，檢查通過...')
 	else :
@@ -367,7 +385,7 @@ def main():
 		print('--------------------------------------------------------------------------------------')
 
 # 需處理 index out of range 的問題...
-	if  float(TdMin[1]) >= float(times[loc1-1]) and  float(TdMin[1]) <= float(times[loc1+1]):
+	if  float(TdMin[1]) >= float(times[loc_inv1[0]]) and  float(TdMin[1]) <= float(times[loc_inv1[1]]):
 		print('     o  Td之日極小值時間(',TdMin[1],') 接近Td之小時最小值時間(',times[loc1],')，檢查通過...')
 	else:
 		print('---------------------------------,---------------------------------------------------')	
