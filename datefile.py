@@ -156,6 +156,14 @@ def read_max_data_T(item,lines):
 		maxvalue = lines[30][31:34]
 		maxvalueT = lines[31][30:34]
 		datamax = [maxvalue,maxvalueT]
+	elif item == 'fxMax':
+		maxvalue = lines[30][46:49]
+		maxvalueT = lines[31][45:49]
+		datamax = [maxvalue,maxvalueT]
+	elif item == 'F10Max':
+		maxvalue = lines[35][46:49]
+		maxvalueT = lines[36][45:49]
+		datamax = [maxvalue,maxvalueT]
 	else :
 		print('not right!')
 	return datamax	
@@ -392,5 +400,71 @@ def main():
 		print('     !!! Td之日極小值時間(',TdMin[1],') 離Td小時最小值時間(',times[loc1],')稍遠，請檢查!!!')
 		print('------------------------------------------------------------------------------------')
 
+
+
+	print('+++++++++++++++   6. 檢查fx的極值與時間是否合理   ++++++++++++++')
+	fx = read_data_h('fx',lines)
+	xd = read_data_h('xd',lines)
+	fx_findmax = max(fx)
+	loc = fx.index(max(fx))
+	fxMax = read_max_data_T('fxMax',lines)
+	xdMax = lines[32][47:49]
+	loc_inv = locate(loc)
+	
+	
+	# check if P1Max >= p1_findmax
+	if float(fxMax[0]) == float(fx_findmax) :
+		print('     o  fx之日極大值(',fxMax[0],') = fx之小時最大值(',fx_findmax,')，檢查通過...')
+	else :
+		print('-------------------------------------------------------------------------------------')	
+		print('     !!! fx之日極大值(',fxMax[0],')不等於fx之小時最大值(',fx_findmax,')，數值有問題請進行確認!!!')
+		print('--------------------------------------------------------------------------------------')
+
+
+	if  float(fxMax[1]) >= float(times[loc_inv[0]]) and  float(fxMax[1]) <= float(times[loc_inv[1]]):
+		print('     o  fx之日極大值時間(',fxMax[1],') 接近fx之小時最大值時間(',times[loc],')，檢查通過...')
+	else:
+		print('------------------------------------------------------------------------------------')	
+		print('     !!! fx之日極大值時間(',fxMax[1],') 離fx之小時最大值時間(',times[loc],')稍遠，請檢查!!!')
+		print('------------------------------------------------------------------------------------')
+
+	if float(xd[loc]) == float(xdMax) :
+		print('     o  fx之極值風向xd(',xdMax,') = fx之最大值時的風向(',xd[loc],')，檢查通過...')
+	else :
+		print('------------------------------------------------------------------------------------')	
+		print('     !!! fx之日極值風向xd(',xdMax,') 與fx_Max發生時間:',times[loc],'之風向(',xd[loc],')不同，請檢查!!!')
+		print('------------------------------------------------------------------------------------')
+
+	print('+++++++++++++++   7. 檢查F10的極值與時間是否合理   ++++++++++++++')
+	F10 = read_data_h('F10',lines)
+	D10 = read_data_h('10D',lines)
+	F10_findmax = max(F10)
+	loc = F10.index(max(F10))
+	F10Max = read_max_data_T('F10Max',lines)
+	D10Max = lines[37][47:49]
+	loc_inv = locate(loc)
+	
+	# check if P1Max >= p1_findmax
+	if float(F10Max[0]) == float(F10_findmax) :
+		print('     o  F10之日極大值(',F10Max[0],') = F10之小時最大值(',F10_findmax,')，檢查通過...')
+	else :
+		print('-------------------------------------------------------------------------------------')	
+		print('     !!! F10之日極大值(',F10Max[0],')不等於F10之小時最大值(',F10_findmax,')，數值有問題請進行確認!!!')
+		print('--------------------------------------------------------------------------------------')
+
+
+	if float(F10Max[1]) >= float(times[loc_inv[0]]) and  float(F10Max[1]) <= float(times[loc_inv[1]]):
+		print('     o  F10之日極大值時間(',F10Max[1],') 接近F10之小時最大值時間(',times[loc],')，檢查通過...')
+	else:
+		print('------------------------------------------------------------------------------------')	
+		print('     !!! F10之日極大值時間(',F10Max[1],') 離F10之小時最大值時間(',times[loc],')稍遠，請檢查!!!')
+		print('------------------------------------------------------------------------------------')
+	
+	if float(D10[loc]) == float(D10Max) :
+		print('     o  F10之極值風向10D(',D10Max,') = F10之最大值時的風向(',D10[loc],')，檢查通過...')
+	else :
+		print('------------------------------------------------------------------------------------')	
+		print('     !!! F10之日極值風向10D(',D10Max,') 與10D_Max發生時間:',times[loc],'之風向(',D10[loc],')不同，請檢查!!!')
+		print('------------------------------------------------------------------------------------')
 
 main()
